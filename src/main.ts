@@ -2,6 +2,7 @@ import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import AdminJSMongoose from '@adminjs/mongoose';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -22,6 +23,7 @@ async function bootstrap() {
     customSiteTitle: 'Orphic V2',
   });
   app.useGlobalPipes(new ValidationPipe());
+  console.log({ AdminJSMongoose });
   await app.listen(3000);
 }
 bootstrap();
