@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { User } from 'src/users/schemas/user.schema';
+import { User } from '../../users/schemas/user.schema';
 import * as mongoose from 'mongoose';
-import { Item } from 'src/items/schemas/item.schema';
+import { Item } from '../../items/schemas/item.schema';
 
 export enum StatEvents {
   USER_OPENED_VIEW_AR = 'USER_OPENEN_VIEW_AR',

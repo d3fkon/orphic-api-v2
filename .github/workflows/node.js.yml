@@ -26,7 +26,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - run: npm i
-      - run: npm test
       - run: npm run build --if-present
       - run: cp ~/dev.env ~/actions-runner/_work/orphic-api-v2/orphic-api-v2/
       - run: pm2 restart orphic
