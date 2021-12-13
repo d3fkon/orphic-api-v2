@@ -15,6 +15,7 @@ export class UsersService {
       name: createUserDto.userName,
       phoneNumber: createUserDto.phoneNumber,
     });
+    return user.save();
   }
 
   findAll() {

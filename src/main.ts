@@ -24,6 +24,7 @@ async function bootstrap() {
   });
   app.useGlobalPipes(new ValidationPipe());
   console.log({ AdminJSMongoose });
+  app.enableCors();
   await app.listen(3000);
 }
 bootstrap();
