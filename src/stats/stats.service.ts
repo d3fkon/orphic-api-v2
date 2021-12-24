@@ -29,4 +29,8 @@ export class StatsService {
       event: data.event,
     });
   }
+
+  getAllStats() {
+    return this.statsModel.find().populate('user item');
+  }
 }

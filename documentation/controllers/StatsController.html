@@ -86,6 +86,9 @@
                             <li>
                                 <a href="#addStat" >addStat</a>
                             </li>
+                            <li>
+                                <a href="#getAllStats" >getAllStats</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -179,13 +182,57 @@
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAllStats"></a>
+                    <span class="name">
+                        <span ><b>getAllStats</b></span>
+                        <a href="#getAllStats"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getAllStats()</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Get()<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">src/stats/stats.controller.ts:19</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>    </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Body, Controller, Post, UseInterceptors } from &#x27;@nestjs/common&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Body, Controller, Get, Post, UseInterceptors } from &#x27;@nestjs/common&#x27;;
 import { ApiTags } from &#x27;@nestjs/swagger&#x27;;
-import { TransformInterceptor } from &#x27;src/interceptors/transform.interceptor&#x27;;
+import { TransformInterceptor } from &#x27;../interceptors/transform.interceptor&#x27;;
 import { AddStatDto } from &#x27;./dto/add-stat.dto&#x27;;
 import { StatsService } from &#x27;./stats.service&#x27;;
 
@@ -198,6 +245,11 @@ export class StatsController {
   @Post()
   addStat(@Body() data: AddStatDto) {
     return this.statsService.addStat(data);
+  }
+
+  @Get()
+  getAllStats() {
+    return this.statsService.getAllStats();
   }
 }
 </code></pre>

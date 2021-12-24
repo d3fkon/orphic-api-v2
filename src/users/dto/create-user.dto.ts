@@ -9,4 +9,13 @@ export class CreateUserDto {
   @ApiProperty()
   @IsNotEmpty()
   userName: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  clientId: string; // Client ID to send the appropriate data
+}
+
+export interface LoginUserResponseDto {
+  token: string;
+  userId: string;
 }

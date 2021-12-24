@@ -6,9 +6,12 @@ import { Document } from 'mongoose';
   timestamps: true,
 })
 export class User {
+  _id: string;
+
   @IsNotEmpty()
   @Prop({ required: true })
   name: string;
+
   @IsNotEmpty()
   @Prop({ required: true })
   phoneNumber: string;

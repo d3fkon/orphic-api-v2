@@ -17,6 +17,8 @@ import * as mongoose from 'mongoose';
 import { SchemaModule } from './schema/schema.module';
 import { Item } from './items/schemas/item.schema';
 import { Stat } from './stats/schemas/stat.schema';
+import { RewardsModule } from './rewards/rewards.module';
+import { Reward } from './rewards/schemas/reward.schema';
 
 AdminJS.registerAdapter(AdminJSMongoose);
 
@@ -38,18 +40,20 @@ AdminJS.registerAdapter(AdminJSMongoose);
     AdminModule.createAdminAsync({
       imports: [SchemaModule],
       inject: [
-        getModelToken('Users'),
-        getModelToken('Items'),
-        getModelToken('Stats'),
+        getModelToken(User.name),
+        getModelToken(Item.name),
+        getModelToken(Stat.name),
+        getModelToken(Reward.name),
       ],
       useFactory: (
         userModel: mongoose.Model<User>,
         itemModel: mongoose.Model<Item>,
         statsModel: mongoose.Model<Stat>,
+        rewardsModel: mongoose.Model<Reward>,
       ) => ({
         adminJsOptions: {
           rootPath: '/admin',
-          resources: [userModel, itemModel, statsModel],
+          resources: [userModel, itemModel, statsModel, rewardsModel],
         },
       }),
     }),
@@ -59,6 +63,7 @@ AdminJS.registerAdapter(AdminJSMongoose);
     ItemsModule,
     UsersModule,
     StatsModule,
+    RewardsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -39,7 +39,7 @@
 
 <ol class="breadcrumb">
   <li>Injectables</li>
-  <li >UsersService</li>
+  <li >RewardsService</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/users/users.service.ts</code>
+            <code>src/rewards/rewards.service.ts</code>
         </p>
 
 
@@ -66,11 +66,10 @@
             </p>
             <p class="comment">
                 <ol>
-<li>Fetch user&#39;s profile</li>
-<li>Login a user</li>
-<li>Generate Token for user</li>
-<li>Verify Token for user</li>
-<li>Get all users</li>
+<li>Create a rewards for a user</li>
+<li>Redeem a reward with an ID</li>
+<li>Fetch rewards for a user</li>
+<li>Reward Redemption Statistics</li>
 </ol>
 
             </p>
@@ -91,22 +90,23 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#findAll" >findAll</a>
+                                    <span class="modifier">Async</span>
+                                <a href="#checkAndIssueRewards" >checkAndIssueRewards</a>
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
-                                <a href="#findOne" >findOne</a>
+                                <a href="#createReward" >createReward</a>
                             </li>
                             <li>
-                                <a href="#generateToken" >generateToken</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Async</span>
-                                <a href="#login" >login</a>
+                                <a href="#generateCode" >generateCode</a>
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
-                                <a href="#verifyToken" >verifyToken</a>
+                                <a href="#getRewardsForUser" >getRewardsForUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#redeemCode" >redeemCode</a>
                             </li>
                         </ul>
                     </td>
@@ -126,12 +126,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(userModel: <a href="../classes/User.html" target="_self">Model&lt;UserDocument&gt;</a>, config: ConfigService)</code>
+<code>constructor(rewardModel: <a href="../classes/Reward.html" target="_self">Model&lt;RewardDocument&gt;</a>, userModel: <a href="../classes/User.html" target="_self">Model&lt;UserDocument&gt;</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/users/users.service.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/rewards/rewards.service.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -149,10 +149,10 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>userModel</td>
+                                                        <td>rewardModel</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../classes/User.html" target="_self" >Model&lt;UserDocument&gt;</a></code>
+                                                                        <code><a href="../classes/Reward.html" target="_self" >Model&lt;RewardDocument&gt;</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -161,10 +161,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>config</td>
+                                                        <td>userModel</td>
                                                   
                                                         <td>
-                                                                    <code>ConfigService</code>
+                                                                        <code><a href="../classes/User.html" target="_self" >Model&lt;UserDocument&gt;</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -190,69 +190,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="findAll"></a>
-                    <span class="name">
-                        <span ><b>findAll</b></span>
-                        <a href="#findAll"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>findAll()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="58"
-                            class="link-to-prism">src/users/users.service.ts:58</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>All user&#39;s data</p>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="findOne"></a>
+                    <a name="checkAndIssueRewards"></a>
                     <span class="name">
                         <span class="modifier">Async</span>
-                        <span ><b>findOne</b></span>
-                        <a href="#findOne"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>checkAndIssueRewards</b></span>
+                        <a href="#checkAndIssueRewards"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>findOne(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>checkAndIssueRewards(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, clientId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">src/users/users.service.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">src/rewards/rewards.service.ts:55</a></div>
                 </td>
             </tr>
 
@@ -269,12 +226,11 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
-                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>id</td>
+                                    <td>userId</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
@@ -284,81 +240,18 @@
                                     </td>
 
 
+                                </tr>
+                                <tr>
+                                    <td>clientId</td>
                                     <td>
-                                        <p>User&#39;s ID</p>
-
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/User.html" target="_self" >Promise&lt;User&gt;</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>User&#39;s data</p>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="generateToken"></a>
-                    <span class="name">
-                        <span ><b>generateToken</b></span>
-                        <a href="#generateToken"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>generateToken(id)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="77"
-                            class="link-to-prism">src/users/users.service.ts:77</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>id</td>
 
                                     <td>
                                         No
                                     </td>
 
 
-                                    <td>
-                                        <p>User&#39;s ID for JWT token generation</p>
-
-                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -366,12 +259,11 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>        <code><a href="../interfaces/IExistingRewardsForUser.html" target="_self" >Promise&lt;IExistingRewardsForUser&gt;</a></code>
 
                     </div>
                     <div class="io-description">
-                        <p>The token generated by JWT</p>
-
+                        
                     </div>
                 </td>
             </tr>
@@ -381,18 +273,18 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="login"></a>
+                    <a name="createReward"></a>
                     <span class="name">
                         <span class="modifier">Async</span>
-                        <span ><b>login</b></span>
-                        <a href="#login"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>createReward</b></span>
+                        <a href="#createReward"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>login(createUserDto: <a href="../classes/CreateUserDto.html" target="_self">CreateUserDto</a>)</code>
+                    <code>createReward(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, percentage: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, tier: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, clientId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -400,15 +292,13 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">src/users/users.service.ts:31</a></div>
+                            class="link-to-prism">src/rewards/rewards.service.ts:31</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>TODO: Implement OTP</p>
-</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -419,14 +309,13 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
-                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>createUserDto</td>
+                                    <td>userId</td>
                                     <td>
-                                                <code><a href="../classes/CreateUserDto.html" target="_self" >CreateUserDto</a></code>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
 
                                     <td>
@@ -434,10 +323,42 @@
                                     </td>
 
 
+                                </tr>
+                                <tr>
+                                    <td>percentage</td>
                                     <td>
-                                        <p>Object to send user&#39;s parameters</p>
-
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
                                     </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>tier</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>clientId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
                                 </tr>
                             </tbody>
                         </table>
@@ -445,11 +366,47 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/User.html" target="_self" >Promise&lt;LoginUserResponseDto&gt;</a></code>
+                        <b>Returns : </b>    <code>unknown</code>
 
                     </div>
                     <div class="io-description">
-                        <p>Login Data to store as cookies on the server side</p>
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="generateCode"></a>
+                    <span class="name">
+                        <span ><b>generateCode</b></span>
+                        <a href="#generateCode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>generateCode()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">src/rewards/rewards.service.ts:25</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
                     </div>
                 </td>
@@ -460,26 +417,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="verifyToken"></a>
+                    <a name="getRewardsForUser"></a>
                     <span class="name">
                         <span class="modifier">Async</span>
-                        <span ><b>verifyToken</b></span>
-                        <a href="#verifyToken"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>getRewardsForUser</b></span>
+                        <a href="#getRewardsForUser"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>verifyToken(token)</code>
+                    <code>getRewardsForUser(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, clientId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="88"
-                            class="link-to-prism">src/users/users.service.ts:88</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">src/rewards/rewards.service.ts:47</a></div>
                 </td>
             </tr>
 
@@ -494,23 +451,34 @@
                             <thead>
                                 <tr>
                                     <td>Name</td>
+                                    <td>Type</td>
                                     <td>Optional</td>
-                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>token</td>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
 
                                     <td>
                                         No
                                     </td>
 
 
+                                </tr>
+                                <tr>
+                                    <td>clientId</td>
                                     <td>
-                                        <p>Token to be verified</p>
-
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
                                 </tr>
                             </tbody>
                         </table>
@@ -518,12 +486,82 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;string&gt;</code>
+                        <b>Returns : </b>        <code><a href="../classes/Reward.html" target="_self" >Promise&lt;Reward[]&gt;</a></code>
 
                     </div>
                     <div class="io-description">
-                        <p>The user ID if the token could be verified or throws an error &#39;Invalid Token&#39;</p>
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="redeemCode"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>redeemCode</b></span>
+                        <a href="#redeemCode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>redeemCode(code: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
 
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="87"
+                            class="link-to-prism">src/rewards/rewards.service.ts:87</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>code</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>unknown</code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -537,98 +575,100 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;;
 import { InjectModel } from &#x27;@nestjs/mongoose&#x27;;
+import * as moment from &#x27;moment&#x27;;
 import { Model } from &#x27;mongoose&#x27;;
-import { CreateUserDto, LoginUserResponseDto } from &#x27;./dto/create-user.dto&#x27;;
-import { UpdateUserDto } from &#x27;./dto/update-user.dto&#x27;;
-import { User, UserDocument } from &#x27;./schemas/user.schema&#x27;;
-import * as jwt from &#x27;jsonwebtoken&#x27;;
-import { ConfigService } from &#x27;@nestjs/config&#x27;;
+import { customAlphabet } from &#x27;nanoid&#x27;;
+import { User, UserDocument } from &#x27;src/users/schemas/user.schema&#x27;;
+import { IExistingRewardsForUser } from &#x27;./entities/existing-rewards&#x27;;
+import { Reward, RewardDocument } from &#x27;./schemas/reward.schema&#x27;;
 
 /**
- * 1. Fetch user&#x27;s profile
- * 2. Login a user
- * 3. Generate Token for user
- * 4. Verify Token for user
- * 5. Get all users
+ * 1. Create a rewards for a user
+ * 2. Redeem a reward with an ID
+ * 3. Fetch rewards for a user
+ * 4. Reward Redemption Statistics
  */
+
 @Injectable()
-export class UsersService {
+export class RewardsService {
   constructor(
+    @InjectModel(Reward.name)
+    private readonly rewardModel: Model&lt;RewardDocument&gt;,
     @InjectModel(User.name) private readonly userModel: Model&lt;UserDocument&gt;,
-    private readonly config: ConfigService,
   ) {}
 
-  /**
-   *
-   * @param createUserDto Object to send user&#x27;s parameters
-   * @returns Login Data to store as cookies on the server side
-   * @description Used to either create a new user or login an existing user smartly.
-   * TODO: Implement OTP
-   */
-  async login(createUserDto: CreateUserDto): Promise&lt;LoginUserResponseDto&gt; {
-    const existingUser &#x3D; await this.userModel
-      .findOne({
-        phoneNumber: createUserDto.phoneNumber,
-      })
-      .lean();
-    if (existingUser) {
-      const data &#x3D; {
-        token: this.generateToken(existingUser._id.toString()),
-        userId: existingUser._id.toString(),
-      };
-      return data;
-    }
-    const user &#x3D; await this.userModel.create({
-      name: createUserDto.userName,
-      phoneNumber: createUserDto.phoneNumber,
+  generateCode(): string {
+    const nanoId1 &#x3D; customAlphabet(&#x27;ABCDEFGHIJKLMNOPQR&#x27;, 3);
+    const nanoId2 &#x3D; customAlphabet(&#x27;123456789&#x27;, 3);
+    return &#x60;${nanoId1()}-${nanoId2()}&#x60;;
+  }
+
+  async createReward(
+    userId: string,
+    percentage: number,
+    tier: number,
+    clientId: string,
+  ) {
+    return this.rewardModel.create({
+      user: userId,
+      discountPercentage: percentage,
+      code: this.generateCode(),
+      expires: new Date(moment().add(2, &#x27;month&#x27;).toISOString()),
+      tier,
+      clientId,
     });
+  }
+
+  async getRewardsForUser(userId: string, clientId: string): Promise&lt;Reward[]&gt; {
+    return this.rewardModel.find({
+      user: userId,
+      clientId: clientId,
+    });
+  }
+
+  // Check if the user has rewards and accordingly allot new ones if not
+  async checkAndIssueRewards(
+    userId: string,
+    clientId: string,
+  ): Promise&lt;IExistingRewardsForUser&gt; {
+    const rewards &#x3D; await this.getRewardsForUser(userId, clientId);
+
+    // If the user already has rewards and check the latest tier
+    if (rewards.length &gt; 0) {
+      let latestTier &#x3D; 1;
+      for (const reward of rewards) {
+        if (!reward.isRedeemed) break;
+        if (reward.tier &gt; latestTier &amp;&amp; reward.isRedeemed) {
+          latestTier &#x3D; reward.tier;
+        }
+      }
+      return {
+        newlyAlloted: false,
+        rewards,
+        currentTier: latestTier,
+      };
+    }
+    const reward1 &#x3D; await this.createReward(userId, 20, 1, clientId);
+    const reward2 &#x3D; await this.createReward(userId, 15, 2, clientId);
+    const reward3 &#x3D; await this.createReward(userId, 30, 3, clientId);
     return {
-      token: this.generateToken(user._id),
-      userId: user._id,
+      newlyAlloted: true,
+      rewards: [reward1, reward2, reward3],
+      currentTier: 1,
     };
   }
 
-  /**
-   * @description Used to get all users in the database
-   * @returns All user&#x27;s data
-   */
-  findAll() {
-    return this.userModel.find();
-  }
-
-  /**
-   *
-   * @param id User&#x27;s ID
-   * @returns User&#x27;s data
-   */
-  async findOne(id: string): Promise&lt;User&gt; {
-    const user &#x3D; await this.userModel.findById(id);
-    return user;
-  }
-
-  /**
-   *
-   * @param id User&#x27;s ID for JWT token generation
-   * @returns The token generated by JWT
-   */
-  generateToken(id) {
-    return jwt.sign({ id }, this.config.get&lt;string&gt;(&#x27;JWT_SECRET&#x27;), {
-      expiresIn: this.config.get&lt;string&gt;(&#x27;JWT_EXPIRY&#x27;),
-    });
-  }
-
-  /**
-   *
-   * @param token Token to be verified
-   * @returns The user ID if the token could be verified or throws an error &#x27;Invalid Token&#x27;
-   */
-  async verifyToken(token): Promise&lt;string&gt; {
-    const secret &#x3D; this.config.get&lt;string&gt;(&#x27;JWT_SECRET&#x27;);
-    const decoded: any &#x3D; jwt.verify(token, secret);
-    if (!decoded.id) {
-      throw &#x27;Invalid Token&#x27;;
-    }
-    return decoded.id;
+  // Redeem the code given and mark as redeemed
+  async redeemCode(code: string) {
+    return this.rewardModel.findOneAndUpdate(
+      {
+        code,
+      },
+      {
+        isRedeemed: true,
+        redeemedOn: new Date(moment().toISOString()),
+      },
+    );
   }
 }
 </code></pre>
@@ -664,7 +704,7 @@ export class UsersService {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
-            var COMPODOC_CURRENT_PAGE_URL = 'UsersService.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'RewardsService.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import AdminJSMongoose from '@adminjs/mongoose';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -24,6 +25,7 @@ async function bootstrap() {
   });
   app.useGlobalPipes(new ValidationPipe());
   console.log({ AdminJSMongoose });
+  app.use(cookieParser());
   app.enableCors();
   await app.listen(3000);
 }

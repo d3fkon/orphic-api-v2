@@ -39,7 +39,7 @@
 
 <ol class="breadcrumb">
   <li>Injectables</li>
-  <li >StatsService</li>
+  <li >AuthMiddleware</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/stats/stats.service.ts</code>
+            <code>src/middlewares/auth.middleware.ts</code>
         </p>
 
 
@@ -79,10 +79,7 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Async</span>
-                                <a href="#addStat" >addStat</a>
-                            </li>
-                            <li>
-                                <a href="#getAllStats" >getAllStats</a>
+                                <a href="#use" >use</a>
                             </li>
                         </ul>
                     </td>
@@ -102,12 +99,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(statsModel: <a href="../classes/Stat.html" target="_self">Model&lt;StatDocument&gt;</a>, usersModel: <a href="../classes/User.html" target="_self">Model&lt;UserDocument&gt;</a>)</code>
+<code>constructor(userService: <a href="../injectables/UsersService.html" target="_self">UsersService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/stats/stats.service.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/middlewares/auth.middleware.ts:10</a></div>
                             </td>
                         </tr>
 
@@ -125,22 +122,10 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>statsModel</td>
+                                                        <td>userService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../classes/Stat.html" target="_self" >Model&lt;StatDocument&gt;</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>usersModel</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../classes/User.html" target="_self" >Model&lt;UserDocument&gt;</a></code>
+                                                                        <code><a href="../injectables/UsersService.html" target="_self" >UsersService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -166,26 +151,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="addStat"></a>
+                    <a name="use"></a>
                     <span class="name">
                         <span class="modifier">Async</span>
-                        <span ><b>addStat</b></span>
-                        <a href="#addStat"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>use</b></span>
+                        <a href="#use"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>addStat(data: <a href="../classes/AddStatDto.html" target="_self">AddStatDto</a>)</code>
+                    <code>use(req: Request, res: <a href="../interfaces/Response.html" target="_self">Response</a>, next: NextFunction)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="18"
-                            class="link-to-prism">src/stats/stats.service.ts:18</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">src/middlewares/auth.middleware.ts:19</a></div>
                 </td>
             </tr>
 
@@ -202,13 +187,14 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>data</td>
+                                    <td>req</td>
                                     <td>
-                                                <code><a href="../classes/AddStatDto.html" target="_self" >AddStatDto</a></code>
+                                            <code>Request</code>
                                     </td>
 
                                     <td>
@@ -216,6 +202,42 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>The request data of the current request</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>res</td>
+                                    <td>
+                                                <code><a href="../interfaces/Response.html" target="_self" >Response</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Response data of the curent request</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>next</td>
+                                    <td>
+                                            <code>NextFunction</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Next function passthrought</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -233,43 +255,6 @@
             </tr>
         </tbody>
     </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getAllStats"></a>
-                    <span class="name">
-                        <span ><b>getAllStats</b></span>
-                        <a href="#getAllStats"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getAllStats()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">src/stats/stats.service.ts:33</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 </section>
 
     </div>
@@ -277,39 +262,43 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-  BadRequestException,
-  ImATeapotException,
   Injectable,
+  NestMiddleware,
+  UnauthorizedException,
 } from &#x27;@nestjs/common&#x27;;
-import { InjectModel } from &#x27;@nestjs/mongoose&#x27;;
-import { Model } from &#x27;mongoose&#x27;;
-import { User, UserDocument } from &#x27;../users/schemas/user.schema&#x27;;
-import { AddStatDto } from &#x27;./dto/add-stat.dto&#x27;;
-import { Stat, StatDocument } from &#x27;./schemas/stat.schema&#x27;;
+import { Request, Response, NextFunction, response } from &#x27;express&#x27;;
+import { UsersService } from &#x27;src/users/users.service&#x27;;
 
 @Injectable()
-export class StatsService {
-  constructor(
-    @InjectModel(Stat.name) private readonly statsModel: Model&lt;StatDocument&gt;,
-    @InjectModel(User.name) private readonly usersModel: Model&lt;UserDocument&gt;,
-  ) {}
-  async addStat(data: AddStatDto) {
-    const user &#x3D; await this.usersModel.findOne({
-      phoneNumber: data.userPhoneNumber,
-    });
-    if (!user)
-      throw new BadRequestException({
-        error: &#x27;User not found in the database&#x27;,
-      });
-    let stat &#x3D; await this.statsModel.create({
-      user: user._id,
-      item: data.itemId,
-      event: data.event,
-    });
-  }
+export class AuthMiddleware implements NestMiddleware {
+  constructor(private readonly userService: UsersService) {}
 
-  getAllStats() {
-    return this.statsModel.find().populate(&#x27;user item&#x27;);
+  /**
+   *
+   * @param req The request data of the current request
+   * @param res Response data of the curent request
+   * @param next Next function passthrought
+   */
+  async use(req: Request, res: Response, next: NextFunction) {
+    const { accessToken, clientId: clientIdCookie } &#x3D; req.cookies;
+    const { clientId } &#x3D; req.headers;
+    if (!accessToken) throw new UnauthorizedException();
+    try {
+      const userId &#x3D; await this.userService.verifyToken(accessToken);
+      const user &#x3D; await this.userService.findOne(userId);
+      if (!user) throw &#x27;User not found&#x27;;
+      req.user &#x3D; user;
+      req.clientId &#x3D; clientId as string;
+      // If there is a clientId coming from the header, then use it
+      if (clientId) res.cookie(&#x27;clientId&#x27;, clientId);
+      // Otherwise use the clientId coming from the cookie
+      else res.cookie(&#x27;clientId&#x27;, clientIdCookie);
+      next();
+    } catch (e) {
+      // Invalid user
+      console.log(e);
+      throw new UnauthorizedException();
+    }
   }
 }
 </code></pre>
@@ -345,7 +334,7 @@ export class StatsService {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
-            var COMPODOC_CURRENT_PAGE_URL = 'StatsService.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'AuthMiddleware.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

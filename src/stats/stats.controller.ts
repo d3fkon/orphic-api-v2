@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { TransformInterceptor } from '../interceptors/transform.interceptor';
 import { AddStatDto } from './dto/add-stat.dto';
@@ -13,5 +13,10 @@ export class StatsController {
   @Post()
   addStat(@Body() data: AddStatDto) {
     return this.statsService.addStat(data);
+  }
+
+  @Get()
+  getAllStats() {
+    return this.statsService.getAllStats();
   }
 }
