@@ -4,7 +4,7 @@ import { RewardsController } from './rewards.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Reward, RewardSchema } from './schemas/reward.schema';
 import { User, UserSchema } from 'src/users/schemas/user.schema';
-import { AuthMiddleware } from 'src/middlewares/auth.middleware';
+import { AuthMiddleware } from 'src/common/middlewares/auth.middleware';
 import { UsersModule } from 'src/users/users.module';
 
 /**

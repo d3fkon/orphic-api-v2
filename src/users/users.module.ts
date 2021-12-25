@@ -8,7 +8,7 @@ import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { User, UserSchema } from './schemas/user.schema';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AuthMiddleware } from 'src/middlewares/auth.middleware';
+import { AuthMiddleware } from 'src/common/middlewares/auth.middleware';
 import { ConfigModule } from '@nestjs/config';
 import { RewardsModule } from 'src/rewards/rewards.module';
 
@@ -16,7 +16,6 @@ import { RewardsModule } from 'src/rewards/rewards.module';
   imports: [
     RewardsModule,
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-    ConfigModule,
   ],
   controllers: [UsersController],
   providers: [UsersService],

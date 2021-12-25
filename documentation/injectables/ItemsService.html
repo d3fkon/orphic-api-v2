@@ -173,8 +173,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">src/items/items.service.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="17"
+                            class="link-to-prism">src/items/items.service.ts:17</a></div>
                 </td>
             </tr>
 
@@ -191,6 +191,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -205,6 +206,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>Data to create and item</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -216,7 +221,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>The created data</p>
+
                     </div>
                 </td>
             </tr>
@@ -244,8 +250,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">src/items/items.service.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">src/items/items.service.ts:25</a></div>
                 </td>
             </tr>
 
@@ -253,8 +259,14 @@
             <tr>
                 <td class="col-md-4">
 
+                    <div>
+                    </div>
                     <div class="io-description">
                         <b>Returns : </b>    <code>unknown</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>All items in the database</p>
 
                     </div>
                 </td>
@@ -278,11 +290,19 @@ export class ItemsService {
     @InjectModel(Item.name) private readonly itemModel: Model&lt;ItemDocument&gt;,
   ) {}
 
-  // Create an item
+  /**
+   *
+   * @param data Data to create and item
+   * @returns The created data
+   */
   async createItem(data: Item) {
     return this.itemModel.create(data);
   }
 
+  /**
+   *
+   * @returns All items in the database
+   */
   async findAllItems() {
     return this.itemModel.find();
   }

@@ -16,6 +16,10 @@ import { UsersService } from 'src/users/users.service';
  */
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
+  /**
+   *
+   * @param userService User Service being injected
+   */
   constructor(private readonly userService: UsersService) {}
 
   /**
@@ -23,6 +27,7 @@ export class AuthMiddleware implements NestMiddleware {
    * @param req The request data of the current request
    * @param res Response data of the curent request
    * @param next Next function passthrought
+   * @throws Unauthorized Exception
    */
   async use(req: Request, res: Response, next: NextFunction) {
     const { accessToken: accessTokenFromCookie, clientId: clientIdFromCookie } =

@@ -9,12 +9,47 @@ export class ItemsService {
     @InjectModel(Item.name) private readonly itemModel: Model<ItemDocument>,
   ) {}
 
-  // Create an item
+  /**
+   *
+   * @param data Data to create and item
+   * @returns The created data
+   */
   async createItem(data: Item) {
     return this.itemModel.create(data);
   }
 
+  /**
+   *
+   * @returns All items in the database
+   */
   async findAllItems() {
+    const res = await this.itemModel.updateMany(
+      {},
+      {
+        $unset: { mainCategory: 1 },
+      },
+    );
+    console.log(res);
     return this.itemModel.find();
+  }
+
+  /**
+   *
+   * @param mainCategory The main category for which the items need to be searched for
+   * @returns all the items for the main category
+   */
+  async findAllItemsByMainCategory(mainCategory: string) {
+    return this.itemModel
+      .find({
+        mainCategory,
+      })
+      .populate('mainCategory');
+  }
+
+  /**
+   * @returns all categories in the database
+   */
+  async findAllCategories() {
+    return this.itemModel.find().distinct('mainCategory');
   }
 }

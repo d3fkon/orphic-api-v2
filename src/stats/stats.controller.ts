@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { TransformInterceptor } from '../interceptors/transform.interceptor';
+import { TransformInterceptor } from '../common/interceptors/transform.interceptor';
 import { AddStatDto } from './dto/add-stat.dto';
 import { StatsService } from './stats.service';
 

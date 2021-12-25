@@ -32,6 +32,9 @@ export class Reward {
   @Prop({ default: 1 })
   tier: number; // The tier of the reward. 1, 2, 3 denotes the different tiers to which the reward belongs to
 
+  @Prop({ required: true })
+  eligibleFrom: Date; // The start date of eligiblity
+
   @Prop({ default: 0 })
   discountPercentage: number;
 }

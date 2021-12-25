@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
-import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
+import { TransformInterceptor } from 'src/common/interceptors/transform.interceptor';
 import { RewardsService } from './rewards.service';
 
 @Controller('rewards')

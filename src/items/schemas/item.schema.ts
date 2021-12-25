@@ -1,9 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
-import { Document } from 'mongoose';
+import * as mongoose from 'mongoose';
+import { Category } from './category.schema';
 
-export type ItemDocument = Item & Document;
+export type ItemDocument = Item & mongoose.Document;
 
 @Schema({
   timestamps: true,
@@ -26,8 +27,12 @@ export class Item {
 
   @ApiProperty()
   @IsNotEmpty()
-  @Prop({ required: true })
-  mainCategory: string;
+  @Prop({
+    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: Category.name,
+  })
+  mainCategory: string | Category;
 
   @ApiProperty()
   @IsNotEmpty()

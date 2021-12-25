@@ -39,6 +39,7 @@ export class RewardsService {
       discountPercentage: percentage,
       code: this.generateCode(),
       expires: new Date(moment().add(2, 'month').toISOString()),
+      eligibleFrom: new Date(moment().add(1, 'day').toISOString()),
       tier,
       clientId,
     });

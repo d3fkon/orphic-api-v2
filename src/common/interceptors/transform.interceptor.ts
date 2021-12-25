@@ -1,13 +1,14 @@
 import {
   CallHandler,
   ExecutionContext,
+  HttpStatus,
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
 import { map, Observable } from 'rxjs';
 
 export interface Response<T> {
-  success: boolean;
+  statusCode: number;
   data: T;
 }
 
@@ -19,6 +20,8 @@ export class TransformInterceptor<T>
     context: ExecutionContext,
     next: CallHandler,
   ): Observable<Response<T>> {
-    return next.handle().pipe(map((data) => ({ success: true, data })));
+    return next
+      .handle()
+      .pipe(map((data) => ({ statusCode: HttpStatus.OK, data })));
   }
 }

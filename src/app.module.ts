@@ -19,6 +19,8 @@ import { Item } from './items/schemas/item.schema';
 import { Stat } from './stats/schemas/stat.schema';
 import { RewardsModule } from './rewards/rewards.module';
 import { Reward } from './rewards/schemas/reward.schema';
+import { AuthModule } from './auth/auth.module';
+import { Category } from './items/schemas/category.schema';
 
 AdminJS.registerAdapter(AdminJSMongoose);
 
@@ -33,7 +35,7 @@ AdminJS.registerAdapter(AdminJSMongoose);
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        uri: configService.get<string>('MONGO_URI'),
+        uri: configuration().mongoUri,
       }),
       inject: [ConfigService],
     }),
@@ -41,29 +43,38 @@ AdminJS.registerAdapter(AdminJSMongoose);
       imports: [SchemaModule],
       inject: [
         getModelToken(User.name),
+        getModelToken(Category.name),
         getModelToken(Item.name),
         getModelToken(Stat.name),
         getModelToken(Reward.name),
       ],
       useFactory: (
         userModel: mongoose.Model<User>,
+        categoryModel: mongoose.Model<Category>,
         itemModel: mongoose.Model<Item>,
         statsModel: mongoose.Model<Stat>,
         rewardsModel: mongoose.Model<Reward>,
       ) => ({
         adminJsOptions: {
           rootPath: '/admin',
-          resources: [userModel, itemModel, statsModel, rewardsModel],
+          resources: [
+            userModel,
+            categoryModel,
+            itemModel,
+            statsModel,
+            rewardsModel,
+          ],
         },
       }),
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'client'),
+      rootPath: join(__dirname, '..', '..', 'client'),
     }),
     ItemsModule,
     UsersModule,
     StatsModule,
     RewardsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

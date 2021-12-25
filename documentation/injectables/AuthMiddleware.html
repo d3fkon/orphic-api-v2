@@ -61,6 +61,18 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <ul>
+<li>A middleware to check for user token in the cookie
+and set the user object in the request for ease of access.</li>
+<li>Also takes care of setting the <code>clientId</code>, which is requried
+to differentiate between clients</li>
+</ul>
+
+            </p>
 
 
 
@@ -104,7 +116,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/middlewares/auth.middleware.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/middlewares/auth.middleware.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -118,6 +130,7 @@
                                                 <td>Name</td>
                                                     <td>Type</td>
                                                 <td>Optional</td>
+                                                    <td>Description</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -132,6 +145,10 @@
                                                             No
                                                     </td>
                                                     
+                                                        <td>
+                                                                <p>User Service being injected</p>
+
+                                                        </td>
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -169,8 +186,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">src/middlewares/auth.middleware.ts:19</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">src/middlewares/auth.middleware.ts:32</a></div>
                 </td>
             </tr>
 
@@ -262,6 +279,8 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  HttpException,
+  HttpStatus,
   Injectable,
   NestMiddleware,
   UnauthorizedException,
@@ -269,8 +288,18 @@
 import { Request, Response, NextFunction, response } from &#x27;express&#x27;;
 import { UsersService } from &#x27;src/users/users.service&#x27;;
 
+/**
+ * - A middleware to check for user token in the cookie
+ * and set the user object in the request for ease of access.
+ * - Also takes care of setting the &#x60;clientId&#x60;, which is requried
+ * to differentiate between clients
+ */
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
+  /**
+   *
+   * @param userService User Service being injected
+   */
   constructor(private readonly userService: UsersService) {}
 
   /**
@@ -278,21 +307,44 @@ export class AuthMiddleware implements NestMiddleware {
    * @param req The request data of the current request
    * @param res Response data of the curent request
    * @param next Next function passthrought
+   * @throws Unauthorized Exception
    */
   async use(req: Request, res: Response, next: NextFunction) {
-    const { accessToken, clientId: clientIdCookie } &#x3D; req.cookies;
-    const { clientId } &#x3D; req.headers;
-    if (!accessToken) throw new UnauthorizedException();
+    const { accessToken: accessTokenFromCookie, clientId: clientIdFromCookie } &#x3D;
+      req.cookies;
+    const { accessToken: accessTokenFromHeader, clientId: clientIdFromHeader } &#x3D;
+      req.headers;
+    if (!accessTokenFromCookie &amp;&amp; !accessTokenFromHeader)
+      throw new UnauthorizedException();
     try {
+      let accessToken;
+
+      // If the token is from cookie or header
+      if (accessTokenFromCookie) accessToken &#x3D; accessTokenFromCookie;
+      else if (accessTokenFromHeader) accessToken &#x3D; accessTokenFromHeader;
+
       const userId &#x3D; await this.userService.verifyToken(accessToken);
       const user &#x3D; await this.userService.findOne(userId);
       if (!user) throw &#x27;User not found&#x27;;
       req.user &#x3D; user;
-      req.clientId &#x3D; clientId as string;
+
       // If there is a clientId coming from the header, then use it
-      if (clientId) res.cookie(&#x27;clientId&#x27;, clientId);
       // Otherwise use the clientId coming from the cookie
-      else res.cookie(&#x27;clientId&#x27;, clientIdCookie);
+      if (clientIdFromCookie) {
+        res.cookie(&#x27;clientId&#x27;, clientIdFromCookie);
+        req.clientId &#x3D; clientIdFromCookie;
+      } else if (clientIdFromHeader) {
+        res.cookie(&#x27;clientId&#x27;, clientIdFromHeader);
+        req.clientId &#x3D; clientIdFromHeader as string;
+      } else {
+        throw new HttpException(
+          {
+            status: HttpStatus.BAD_REQUEST,
+            error: &#x27;Client ID is missing form the request cookie/header&#x27;,
+          },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
       next();
     } catch (e) {
       // Invalid user
