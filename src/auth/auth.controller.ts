@@ -55,15 +55,15 @@ export class AuthController {
 
     // Extract clientId from the headers
     const clientId: string =
-      (request.headers['clientId'] as string) || data.clientId;
+      (request.headers['clientId'] as string) ?? data.clientId;
 
-    // If clientId is not there
-    if (clientId) {
-      throw new HttpException(
-        'Provide clientId in the request header',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
+    // // If clientId is not there
+    // if (clientId) {
+    //   throw new HttpException(
+    //     'Provide clientId in the request header',
+    //     HttpStatus.BAD_REQUEST,
+    //   );
+    // }
     const userData = await this.userService.login({
       userName: data.name,
       phoneNumber: data.phoneNumber,
