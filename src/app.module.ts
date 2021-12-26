@@ -21,6 +21,7 @@ import { RewardsModule } from './rewards/rewards.module';
 import { Reward } from './rewards/schemas/reward.schema';
 import { AuthModule } from './auth/auth.module';
 import { Category } from './items/schemas/category.schema';
+import { VisitHistory } from './users/schemas/visit-history.schema';
 
 AdminJS.registerAdapter(AdminJSMongoose);
 
@@ -47,6 +48,7 @@ AdminJS.registerAdapter(AdminJSMongoose);
         getModelToken(Item.name),
         getModelToken(Stat.name),
         getModelToken(Reward.name),
+        getModelToken(VisitHistory.name),
       ],
       useFactory: (
         userModel: mongoose.Model<User>,
@@ -54,6 +56,7 @@ AdminJS.registerAdapter(AdminJSMongoose);
         itemModel: mongoose.Model<Item>,
         statsModel: mongoose.Model<Stat>,
         rewardsModel: mongoose.Model<Reward>,
+        visitHistoryModel: mongoose.Model<VisitHistory>,
       ) => ({
         adminJsOptions: {
           rootPath: '/admin',
@@ -63,6 +66,7 @@ AdminJS.registerAdapter(AdminJSMongoose);
             itemModel,
             statsModel,
             rewardsModel,
+            visitHistoryModel,
           ],
         },
       }),
