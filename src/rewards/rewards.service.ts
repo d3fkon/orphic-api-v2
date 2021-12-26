@@ -46,10 +46,48 @@ export class RewardsService {
   }
 
   async getRewardsForUser(userId: string, clientId: string): Promise<Reward[]> {
-    return this.rewardModel.find({
-      user: userId,
-      clientId: clientId,
-    });
+    const rewards = await this.rewardModel
+      .find({
+        user: userId,
+        clientId: clientId,
+      })
+      // Adding lean so the message can be tacked on
+      .lean();
+    const now = moment();
+    let messageApplied = false;
+    let count = 0;
+    let rewardNotApplicableToday = false;
+    for (const reward of rewards) {
+      count++;
+      if (!messageApplied) {
+        if (!reward.isRedeemed) {
+          const rewardDate = moment(reward.createdAt);
+          messageApplied = true;
+          // If the reward is on the same day as the user's visit
+          if (rewardDate.isSame(now, 'day')) {
+            reward.message = `Flat ${reward.discountPercentage}% off on your next visit`;
+            rewardNotApplicableToday = true;
+          } else {
+            reward.message = `Flat ${reward.discountPercentage}% off. Avail Now!`;
+          }
+        }
+        // Reward has been redeemed
+        else {
+          reward.message = `Congrats on your ${reward.discountPercentage}% discount!`;
+        }
+        // If message is not applied on the latest offer
+      } else {
+        if (rewardNotApplicableToday) {
+          reward.message = `Flat ${reward.discountPercentage}% off on your next visit after that`;
+        } else {
+          rewardNotApplicableToday = true;
+          reward.message = `Flat ${reward.discountPercentage}% off on your next visit`;
+        }
+      }
+      console.log(reward.message);
+    }
+    console.log(rewards);
+    return rewards;
   }
 
   // Check if the user has rewards and accordingly allot new ones if not

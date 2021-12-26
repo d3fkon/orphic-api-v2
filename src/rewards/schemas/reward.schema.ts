@@ -37,6 +37,9 @@ export class Reward {
 
   @Prop({ default: 0 })
   discountPercentage: number;
+
+  createdAt: Date;
+  message: String; // Dynamically generated string. Not necessarily stored in the database
 }
 
 export const RewardSchema = SchemaFactory.createForClass(Reward);
