@@ -8,7 +8,7 @@ export type RewardDocument = Reward & mongoose.Document;
   timestamps: true,
 })
 export class Reward {
-  @Prop({ requried: true, unique: true })
+  @Prop({ requried: true })
   code: string; // The code to be shown to the user
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })

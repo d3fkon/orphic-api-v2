@@ -32,10 +32,12 @@ export class AuthMiddleware implements NestMiddleware {
   async use(req: Request, res: Response, next: NextFunction) {
     const { accessToken: accessTokenFromCookie, clientId: clientIdFromCookie } =
       req.cookies;
-    const { accessToken: accessTokenFromHeader, clientId: clientIdFromHeader } =
+    // Headers doesn't recognise uppercase characters
+    const { accesstoken: accessTokenFromHeader, clientid: clientIdFromHeader } =
       req.headers;
-    if (!accessTokenFromCookie && !accessTokenFromHeader)
+    if (!accessTokenFromCookie && !accessTokenFromHeader) {
       throw new UnauthorizedException();
+    }
     try {
       let accessToken;
 
@@ -59,16 +61,17 @@ export class AuthMiddleware implements NestMiddleware {
       } else {
         throw new HttpException(
           {
-            status: HttpStatus.BAD_REQUEST,
-            error: 'Client ID is missing form the request cookie/header',
+            statusCode: HttpStatus.BAD_REQUEST,
+            message: 'Client ID is missing form the request cookie/header',
           },
           HttpStatus.BAD_REQUEST,
         );
       }
       next();
     } catch (e) {
-      // Invalid user
+      if (e instanceof HttpException) throw e;
       console.log(e);
+      // Invalid user
       throw new UnauthorizedException();
     }
   }
