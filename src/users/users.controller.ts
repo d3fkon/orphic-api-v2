@@ -28,12 +28,21 @@ export class UsersController {
 
   @Get('profile')
   async profile(@Req() request: Request) {
-    await this.rewardsService.checkAndIssueRewards(
+    const rewards = await this.rewardsService.checkAndIssueRewards(
       request.user._id,
       request.clientId,
     );
     await this.visitHistoryService.track(request.user._id, request.clientId);
-    return request.user;
+    return {
+      user: request.user,
+      rewards,
+      rewardsMessages: [
+        {
+          title: 'You got discounts!',
+          message: 'This is a short message',
+        },
+      ],
+    };
   }
 
   @Get()
