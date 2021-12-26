@@ -9,26 +9,28 @@ import { UsersController } from './users.controller';
 import { User, UserSchema } from './schemas/user.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthMiddleware } from 'src/common/middlewares/auth.middleware';
-import { ConfigModule } from '@nestjs/config';
 import { RewardsModule } from 'src/rewards/rewards.module';
+import { VisitHistoryService } from './visit-history/visit-history.service';
+import {
+  VisitHistory,
+  VisitHistorySchema,
+} from './schemas/visit-history.schema';
 
 @Module({
   imports: [
+    // Required to assign rewards on fetch profile
     RewardsModule,
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema },
+      { name: VisitHistory.name, schema: VisitHistorySchema },
+    ]),
   ],
   controllers: [UsersController],
-  providers: [UsersService],
+  providers: [UsersService, VisitHistoryService],
   exports: [UsersService],
 })
 export class UsersModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(AuthMiddleware)
-      .exclude({
-        path: '/user/login',
-        method: RequestMethod.POST,
-      })
-      .forRoutes(UsersController);
+    consumer.apply(AuthMiddleware).forRoutes(UsersController);
   }
 }

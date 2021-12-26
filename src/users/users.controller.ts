@@ -14,6 +14,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { TransformInterceptor } from '../common/interceptors/transform.interceptor';
 import { request, Request, Response } from 'express';
 import { RewardsService } from 'src/rewards/rewards.service';
+import { VisitHistoryService } from './visit-history/visit-history.service';
 
 @Controller('user')
 @ApiTags('Users')
@@ -22,6 +23,7 @@ export class UsersController {
   constructor(
     private readonly usersService: UsersService,
     private readonly rewardsService: RewardsService,
+    private readonly visitHistoryService: VisitHistoryService,
   ) {}
 
   @Get('profile')
@@ -30,6 +32,7 @@ export class UsersController {
       request.user._id,
       request.clientId,
     );
+    await this.visitHistoryService.track(request.user._id, request.clientId);
     return request.user;
   }
 

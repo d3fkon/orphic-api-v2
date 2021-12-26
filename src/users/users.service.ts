@@ -26,7 +26,6 @@ export class UsersService {
    * @param createUserDto Object to send user's parameters
    * @returns Login Data to store as cookies on the server side
    * @description Used to either create a new user or login an existing user smartly.
-   * TODO: Implement OTP
    */
   async login(createUserDto: CreateUserDto): Promise<LoginUserResponseDto> {
     const existingUser = await this.userModel
