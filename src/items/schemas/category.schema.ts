@@ -23,6 +23,9 @@ export class Category {
   name: string;
 
   @Prop()
+  listOrder: number;
+
+  @Prop()
   backgroundColor: string;
 
   @Prop()

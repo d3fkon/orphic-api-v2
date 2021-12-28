@@ -53,6 +53,6 @@ export class ItemsService {
    * @returns all categories in the database
    */
   async findAllCategories() {
-    return this.categoryModel.find();
+    return this.categoryModel.find().sort({ listOrder: 1 });
   }
 }
