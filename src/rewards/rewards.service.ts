@@ -28,6 +28,14 @@ export class RewardsService {
     return `${nanoId1()}-${nanoId2()}`;
   }
 
+  /**
+   * A helper function to create rewards for users
+   * @param userId
+   * @param percentage
+   * @param tier
+   * @param clientId
+   * @returns
+   */
   async createReward(
     userId: string,
     percentage: number,
@@ -45,6 +53,12 @@ export class RewardsService {
     });
   }
 
+  /**
+   *
+   * @param userId The user who needs to get the reward
+   * @param clientId The client for which the user needs the reward
+   * @returns List of rewards
+   */
   async getRewardsForUser(userId: string, clientId: string): Promise<Reward[]> {
     const rewards = await this.rewardModel
       .find({
@@ -81,7 +95,7 @@ export class RewardsService {
           reward.message = `Flat ${reward.discountPercentage}% off on your next visit after that`;
         } else {
           rewardNotApplicableToday = true;
-          reward.message = `Flat ${reward.discountPercentage}% off on your next visit`;
+          reward.message = `Flat ${reward.discountPercentage}% after redeeming the previous offer`;
         }
       }
       console.log(reward.message);

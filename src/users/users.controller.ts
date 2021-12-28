@@ -1,20 +1,11 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  UseInterceptors,
-  Req,
-  Res,
-} from '@nestjs/common';
+import { Controller, Get, Param, UseInterceptors, Req } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { TransformInterceptor } from '../common/interceptors/transform.interceptor';
-import { request, Request, Response } from 'express';
+import { Request } from 'express';
 import { RewardsService } from 'src/rewards/rewards.service';
 import { VisitHistoryService } from './visit-history/visit-history.service';
+import * as moment from 'moment';
 
 @Controller('user')
 @ApiTags('Users')
@@ -33,15 +24,26 @@ export class UsersController {
       request.clientId,
     );
     await this.visitHistoryService.track(request.user._id, request.clientId);
+    const lastVisit = await this.visitHistoryService.getLastVisit(
+      request.user._id,
+      request.clientId,
+    );
+    let shouldShowPopup = false;
+    if (!lastVisit) shouldShowPopup = true;
+    if (moment(lastVisit.createdAt).isBefore(moment().subtract(1, 'day'))) {
+      shouldShowPopup = true;
+    }
     return {
       user: request.user,
       rewards,
-      rewardsMessages: [
-        {
-          title: 'You got discounts!',
-          message: 'This is a short message',
-        },
-      ],
+      rewardsMessages: shouldShowPopup
+        ? [
+            {
+              title: 'You got discounts!',
+              message: 'Do you like discounts?',
+            },
+          ]
+        : [],
     };
   }
 

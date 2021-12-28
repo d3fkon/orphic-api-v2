@@ -14,6 +14,8 @@ export class VisitHistory {
 
   @Prop()
   clientId: string;
+
+  createdAt: Date;
 }
 
 /**

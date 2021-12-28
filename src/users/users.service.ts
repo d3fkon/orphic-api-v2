@@ -84,7 +84,7 @@ export class UsersService {
    * @param token Token to be verified
    * @returns The user ID if the token could be verified or throws an error 'Invalid Token'
    */
-  async verifyToken(token): Promise<string> {
+  async verifyToken(token: string): Promise<string> {
     const secret = configuration().jwtSecret;
     const decoded: any = jwt.verify(token, secret);
     if (!decoded.id) {
