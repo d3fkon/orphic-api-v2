@@ -47,10 +47,10 @@ export class RewardsService {
       user: userId,
       discountPercentage: percentage,
       code: this.generateCode(),
+      eligibleFrom: validFromDate.startOf('day').toISOString(),
       expires: new Date(
         validFromDate.add(20, 'day').startOf('day').toISOString(),
       ),
-      eligibleFrom: validFromDate.startOf('day').toISOString(),
       tier,
       clientId,
     });
@@ -127,28 +127,9 @@ export class RewardsService {
         currentTier: latestTier,
       };
     }
-    const reward1 = this.createReward(
-      userId,
-      25,
-      1,
-      clientId,
-      moment().add(2, 'day'),
-    );
-    const reward2 = this.createReward(
-      userId,
-      15,
-      2,
-      clientId,
-      moment().add(4, 'day'),
-    );
-    const reward3 = this.createReward(
-      userId,
-      30,
-      3,
-      clientId,
-      moment().add(6, 'day'),
-    );
-    await Promise.all([reward1, reward2, reward3]);
+    await this.createReward(userId, 25, 1, clientId, moment().add(2, 'day'));
+    await this.createReward(userId, 15, 2, clientId, moment().add(4, 'day'));
+    await this.createReward(userId, 30, 3, clientId, moment().add(6, 'day'));
     return {
       newlyAlloted: true,
       rewards: await this.getRewardsForUser(userId, clientId),
