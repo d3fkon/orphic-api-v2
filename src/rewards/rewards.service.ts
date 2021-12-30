@@ -92,15 +92,13 @@ export class RewardsService {
         // If message is not applied on the latest offer
       } else {
         if (rewardNotApplicableToday) {
-          reward.message = `Flat ${reward.discountPercentage}% off on your next visit after that`;
+          reward.message = `Flat ${reward.discountPercentage}% off on your visit after that`;
         } else {
           rewardNotApplicableToday = true;
-          reward.message = `Flat ${reward.discountPercentage}% after redeeming the previous offer`;
+          reward.message = `Flat ${reward.discountPercentage}% off, next visit`;
         }
       }
-      console.log(reward.message);
     }
-    console.log(rewards);
     return rewards;
   }
 
@@ -126,12 +124,13 @@ export class RewardsService {
         currentTier: latestTier,
       };
     }
-    const reward1 = await this.createReward(userId, 20, 1, clientId);
-    const reward2 = await this.createReward(userId, 15, 2, clientId);
-    const reward3 = await this.createReward(userId, 30, 3, clientId);
+    const reward1 = this.createReward(userId, 25, 1, clientId);
+    const reward2 = this.createReward(userId, 15, 2, clientId);
+    const reward3 = this.createReward(userId, 30, 3, clientId);
+    await Promise.all([reward1, reward2, reward3]);
     return {
       newlyAlloted: true,
-      rewards: [reward1, reward2, reward3],
+      rewards: await this.getRewardsForUser(userId, clientId),
       currentTier: 1,
     };
   }

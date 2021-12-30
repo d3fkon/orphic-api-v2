@@ -30,7 +30,9 @@ export class UsersController {
     );
     let shouldShowPopup = false;
     if (!lastVisit) shouldShowPopup = true;
-    if (moment(lastVisit.createdAt).isBefore(moment().subtract(1, 'day'))) {
+    else if (
+      moment(lastVisit.createdAt).isBefore(moment().subtract(1, 'day'))
+    ) {
       shouldShowPopup = true;
     }
     return {
@@ -40,7 +42,7 @@ export class UsersController {
         ? [
             {
               title: 'You got discounts!',
-              message: 'Do you like discounts?',
+              message: 'Give me 20% off?',
             },
           ]
         : [],
