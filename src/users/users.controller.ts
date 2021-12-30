@@ -23,7 +23,6 @@ export class UsersController {
       request.user._id,
       request.clientId,
     );
-    await this.visitHistoryService.track(request.user._id, request.clientId);
     const lastVisit = await this.visitHistoryService.getLastVisit(
       request.user._id,
       request.clientId,
@@ -35,6 +34,7 @@ export class UsersController {
     ) {
       shouldShowPopup = true;
     }
+    await this.visitHistoryService.track(request.user._id, request.clientId);
     return {
       user: request.user,
       rewards,
