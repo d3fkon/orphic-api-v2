@@ -34,6 +34,9 @@ export class UsersController {
     ) {
       shouldShowPopup = true;
     }
+
+    // Disabling Pop Ups
+    shouldShowPopup = false;
     await this.visitHistoryService.track(request.user._id, request.clientId);
     return {
       user: request.user,
