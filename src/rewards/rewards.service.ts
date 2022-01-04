@@ -102,6 +102,9 @@ export class RewardsService {
           } else {
             reward.message = `Flat ${reward.discountPercentage}% off. Avail Now!`;
           }
+          if (reward.discountPercentage === 5) {
+            reward.message = 'Get 5% off your bill NOW!!';
+          }
         }
         // Reward has been redeemed
         else {
@@ -191,12 +194,12 @@ export class RewardsService {
         expires: new Date(moment().add(1, 'days').toISOString()),
         clientId: 'string',
         user: '61cd947fbfb4c83af7cd5b52',
-        code: 'DDE-986',
+        code: 'Login to enable!',
         createdAt: '2022-01-04T15:29:02.686Z',
         updatedAt: '2022-01-04T15:29:02.686Z',
         __v: 0,
-        enabled: false,
-        message: 'Flat 5% off NOW',
+        enabled: true,
+        message: 'Flat 5% off your bill NOW!',
       },
       {
         _id: '61d467be40e035b87743deef',
