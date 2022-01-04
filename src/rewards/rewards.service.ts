@@ -74,8 +74,23 @@ export class RewardsService {
     let messageApplied = false;
     let count = 0;
     let rewardNotApplicableToday = false;
+    let isPreviousRedeemed = false;
+    let previousRedeemedDate: moment.Moment;
+    let redeemCount = 0;
     for (const reward of rewards) {
       count++;
+      reward.enabled = false;
+      if (reward.isRedeemed) {
+        isPreviousRedeemed = true;
+        previousRedeemedDate = moment(reward.redeemedOn);
+        redeemCount++;
+      } else if (isPreviousRedeemed) {
+        isPreviousRedeemed = false;
+        if (now.isSameOrAfter(moment(reward.eligibleFrom), 'day')) {
+          // Basically if the previous offer is redeemed and the current reward is enabled
+          reward.enabled = true;
+        }
+      }
       if (!messageApplied) {
         if (!reward.isRedeemed) {
           const rewardDate = moment(reward.createdAt);
@@ -96,16 +111,27 @@ export class RewardsService {
       } else {
         if (rewardNotApplicableToday) {
           reward.message = `Flat ${reward.discountPercentage}% off on your visit after that`;
+          isPreviousRedeemed = true;
         } else {
+          if (isPreviousRedeemed) {
+          }
           rewardNotApplicableToday = true;
           reward.message = `Flat ${reward.discountPercentage}% off, next visit`;
         }
       }
     }
+    if (redeemCount === 0) {
+      rewards[0].enabled = true;
+    }
     return rewards;
   }
 
-  // Check if the user has rewards and accordingly allot new ones if not
+  /**
+   *
+   * @param {string} userId
+   * @param {string} clientId
+   * @returns {Promise<IExistingRewardsForUser>}
+   */
   async checkAndIssueRewards(
     userId: string,
     clientId: string,
@@ -127,9 +153,10 @@ export class RewardsService {
         currentTier: latestTier,
       };
     }
-    await this.createReward(userId, 25, 1, clientId, moment().add(2, 'day'));
-    await this.createReward(userId, 15, 2, clientId, moment().add(4, 'day'));
-    await this.createReward(userId, 30, 3, clientId, moment().add(6, 'day'));
+    await this.createReward(userId, 5, 1, clientId, moment().add(0, 'day'));
+    await this.createReward(userId, 25, 2, clientId, moment().add(2, 'day'));
+    await this.createReward(userId, 15, 3, clientId, moment().add(4, 'day'));
+    await this.createReward(userId, 30, 4, clientId, moment().add(6, 'day'));
     return {
       newlyAlloted: true,
       rewards: await this.getRewardsForUser(userId, clientId),
@@ -137,16 +164,91 @@ export class RewardsService {
     };
   }
 
-  // Redeem the code given and mark as redeemed
-  async redeemCode(code: string) {
-    return this.rewardModel.findOneAndUpdate(
+  /**
+   * Redeem a certain reward
+   * @param {string} rewardId code to be redeemed
+   * @returns Process Response
+   */
+  async redeemCode(rewardId: string) {
+    return this.rewardModel.findByIdAndUpdate(rewardId, {
+      isRedeemed: true,
+      redeemedOn: new Date(moment().toISOString()),
+    });
+  }
+
+  /**
+   *
+   */
+  genericRewards() {
+    return [
       {
-        code,
+        _id: '61d467be40e035b87743deed',
+        discountPercentage: 5,
+        eligibleFrom: new Date(moment().toISOString()),
+        tier: 1,
+        isRedeemed: false,
+        isExpired: false,
+        expires: new Date(moment().add(1, 'days').toISOString()),
+        clientId: 'string',
+        user: '61cd947fbfb4c83af7cd5b52',
+        code: 'DDE-986',
+        createdAt: '2022-01-04T15:29:02.686Z',
+        updatedAt: '2022-01-04T15:29:02.686Z',
+        __v: 0,
+        enabled: false,
+        message: 'Flat 5% off NOW',
       },
       {
-        isRedeemed: true,
-        redeemedOn: new Date(moment().toISOString()),
+        _id: '61d467be40e035b87743deef',
+        discountPercentage: 25,
+        eligibleFrom: new Date(moment().toISOString()),
+        tier: 2,
+        isRedeemed: false,
+        isExpired: false,
+        expires: new Date(moment().add(20, 'days').toISOString()),
+        clientId: 'string',
+        user: '61cd947fbfb4c83af7cd5b52',
+        code: 'GAD-596',
+        createdAt: '2022-01-04T15:29:02.909Z',
+        updatedAt: '2022-01-04T15:29:02.909Z',
+        __v: 0,
+        enabled: true,
+        message: 'Flat 25% off on your second visit',
       },
-    );
+      {
+        _id: '61d467be40e035b87743def1',
+        discountPercentage: 15,
+        eligibleFrom: new Date(moment().toISOString()),
+        tier: 3,
+        isRedeemed: false,
+        isExpired: false,
+        expires: new Date(moment().add(40, 'days').toISOString()),
+        clientId: 'string',
+        user: '61cd947fbfb4c83af7cd5b52',
+        code: 'KLQ-498',
+        createdAt: '2022-01-04T15:29:02.996Z',
+        updatedAt: '2022-01-04T15:29:02.996Z',
+        __v: 0,
+        enabled: false,
+        message: 'Flat 15% off on your third visit',
+      },
+      {
+        _id: '61d467bf40e035b87743def3',
+        discountPercentage: 30,
+        eligibleFrom: new Date(moment().toISOString()),
+        tier: 4,
+        isRedeemed: false,
+        isExpired: false,
+        expires: new Date(moment().add(60, 'days').toISOString()),
+        clientId: 'string',
+        user: '61cd947fbfb4c83af7cd5b52',
+        code: 'LRF-663',
+        createdAt: '2022-01-04T15:29:03.052Z',
+        updatedAt: '2022-01-04T15:29:03.052Z',
+        __v: 0,
+        enabled: false,
+        message: 'Flat 30% off on your fourth visit',
+      },
+    ];
   }
 }

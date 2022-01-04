@@ -20,7 +20,8 @@ import { Category, CategorySchema } from './schemas/category.schema';
   providers: [ItemsService],
 })
 export class ItemsModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes(ItemsController);
-  }
+  // Removing authentication for items
+  // configure(consumer: MiddlewareConsumer) {
+  //   consumer.apply(AuthMiddleware).forRoutes(ItemsController);
+  // }
 }

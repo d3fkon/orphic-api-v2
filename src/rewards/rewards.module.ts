@@ -1,4 +1,9 @@
-import { forwardRef, MiddlewareConsumer, Module } from '@nestjs/common';
+import {
+  forwardRef,
+  MiddlewareConsumer,
+  Module,
+  RequestMethod,
+} from '@nestjs/common';
 import { RewardsService } from './rewards.service';
 import { RewardsController } from './rewards.controller';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -23,6 +28,9 @@ import { UsersModule } from 'src/users/users.module';
 })
 export class RewardsModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes(RewardsController);
+    consumer
+      .apply(AuthMiddleware)
+      .exclude('rewards/generic')
+      .forRoutes(RewardsController);
   }
 }

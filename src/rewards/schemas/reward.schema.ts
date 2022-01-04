@@ -40,6 +40,7 @@ export class Reward {
 
   createdAt: Date;
   message: String; // Dynamically generated string. Not necessarily stored in the database
+  enabled: boolean;
 }
 
 export const RewardSchema = SchemaFactory.createForClass(Reward);
