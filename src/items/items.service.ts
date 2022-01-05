@@ -26,13 +26,6 @@ export class ItemsService {
    * @returns All items in the database
    */
   async findAllItems() {
-    const res = await this.itemModel.updateMany(
-      {},
-      {
-        $unset: { mainCategory: 1 },
-      },
-    );
-    console.log(res);
     return this.itemModel.find();
   }
 
