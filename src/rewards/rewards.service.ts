@@ -124,7 +124,7 @@ export class RewardsService {
       }
     }
     if (redeemCount === 0) {
-      rewards[0].enabled = true;
+      if (rewards[0]) rewards[0].enabled = true;
     }
     return rewards;
   }

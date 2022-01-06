@@ -18,7 +18,7 @@ export class Item {
   @ApiProperty()
   @IsNotEmpty()
   @Prop({ required: true })
-  name: string;
+  name: string
 
   @ApiProperty()
   @IsNotEmpty()
