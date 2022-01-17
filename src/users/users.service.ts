@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDto, LoginUserResponseDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './schemas/user.schema';
 import * as jwt from 'jsonwebtoken';
 import { ConfigService } from '@nestjs/config';
@@ -91,5 +90,45 @@ export class UsersService {
       throw 'Invalid Token';
     }
     return decoded.id;
+  }
+
+  /**
+   * Find a user with the given phone number
+   * @param {string} phoneNumber
+   * @returns {User}
+   */
+  async findByPhoneNumber(phoneNumber: string) {
+    return this.userModel.findOne({ phoneNumber });
+  }
+
+  async getWallet(token: string) {}
+
+  /** Generate the user's wallet token */
+  generateWalletToken(user: User) {
+    const id = user._id.toString();
+    const l = Number.parseInt((id.length / 2).toString());
+    console.log(l);
+    return id.split('').slice(l).join('') + id.split('').slice(0, l).join('');
+  }
+
+  /** Helper function to get the user from the given token */
+  async getUserFromWalletToken(token: string): Promise<User> {
+    const l = Number.parseInt((token.length / 2).toString());
+    const userId =
+      token.split('').slice(l).join('') + token.split('').slice(0, l).join('');
+    return this.userModel.findById(userId);
+  }
+
+  /** Update the user's wallet address */
+  updateWalletAddress(user: User, address: string) {
+    return this.userModel.findByIdAndUpdate(user._id, {
+      walletAddress: address,
+    });
+  }
+
+  /** Update the user's address, with the given wallet token */
+  async updateWalletWithToken(token: string, address: string) {
+    const user = await this.getUserFromWalletToken(token);
+    return await this.updateWalletAddress(user, address);
   }
 }
