@@ -1,4 +1,12 @@
-import { Controller, Get, Param, UseInterceptors, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  UseInterceptors,
+  Req,
+  Post,
+  Body,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { ApiTags } from '@nestjs/swagger';
 import { TransformInterceptor } from '../common/interceptors/transform.interceptor';
@@ -6,6 +14,7 @@ import { Request } from 'express';
 import { RewardsService } from 'src/rewards/rewards.service';
 import { VisitHistoryService } from './visit-history/visit-history.service';
 import * as moment from 'moment';
+import { UpdateUserWalletDto } from './dto/update-user.dto';
 
 @Controller('user')
 @ApiTags('Users')
@@ -16,6 +25,11 @@ export class UsersController {
     private readonly rewardsService: RewardsService,
     private readonly visitHistoryService: VisitHistoryService,
   ) {}
+
+  @Get('wallet-token')
+  getWalletToken(@Req() request: Request) {
+    return this.usersService.generateWalletToken(request.user);
+  }
 
   @Get('profile')
   async profile(@Req() request: Request) {
@@ -60,5 +74,14 @@ export class UsersController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
+  }
+
+  /** Update the user's wallet address with a token */
+  @Post('wallet')
+  updateWallet(@Body() data: UpdateUserWalletDto) {
+    return this.usersService.updateWalletWithToken(
+      data.token,
+      data.walletAddress,
+    );
   }
 }

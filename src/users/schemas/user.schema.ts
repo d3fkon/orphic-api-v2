@@ -21,6 +21,9 @@ export class User {
 
   @Prop()
   lastUsed: Date;
+
+  @Prop()
+  walletAddress: string;
 }
 
 /**
